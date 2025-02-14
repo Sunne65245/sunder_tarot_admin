@@ -1,0 +1,31 @@
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  width: 100%;
+}
+
+// Layout
+.app-wrapper {
+  display: flex;
+  width: 100vw;
+}
+
+// Navigation
+.nav-link {
+  color: #64748b;
+
+  &.active {
+    color: #3b82f6;
+    background-color: #f1f5f9;
+  }
+}
