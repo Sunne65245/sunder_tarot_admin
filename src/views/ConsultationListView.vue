@@ -2,7 +2,7 @@
   <div class="container py-4">
     <div class="d-flex justify-content-between mb-4">
       <h2>諮詢紀錄</h2>
-      <button class="btn btn-primary">
+      <button class="btn btn-primary"data-bs-toggle="modal" data-bs-target="#addRecordModal">
         <i class="bi bi-plus"></i>
         新增紀錄
       </button>
@@ -56,6 +56,44 @@
         </table>
       </div>
     </div>
+    <!-- Modal 彈窗 -->
+     <div class="modal fade" id="addRecordModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal 標題 -->
+          <div class="modal-header">
+            <h5 class="modal-title">新增諮詢紀錄</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          
+          <!-- Modal 內容 -->
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">客戶名稱</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">日期範圍</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">諮詢主題</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">牌陣</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+
+          <!-- Modal 底部按鈕 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">儲存</button>
+          </div>
+        </div>
+      </div>
+      </div>
   </div>
 </template>
 
