@@ -1,7 +1,7 @@
 <template>
   <div class="container py-4">
-    <h2>儀表板</h2>
-    <p>歡迎使用 Sunder Tarot 後台管理系統</p>
+    <h2>預約排程</h2>
+    <p>功能尚未開放</p>
   </div>
 </template>
 

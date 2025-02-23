@@ -11,6 +11,12 @@ const routes = [
     name: 'ConsultationList',
     component: () => import('../views/ConsultationListView.vue')
   }
+  ,
+  {
+    path: '/SchedulingSystem',
+    name: 'SchedulingSystemList',
+    component: () => import('../views/SchedulingSystem.vue')
+  }
 ]
 
 const router = createRouter({

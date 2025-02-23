@@ -2,19 +2,23 @@
 </script>
 
 <template>
-  <div class="d-flex w-100">
+  <div class="d-flex w-100 index-pg">
     <!-- 側邊欄 -->
-    <div class="sidebar bg-white shadow-sm" style="width: 250px; min-height: 100vh;">
-      <div class="p-4">
-        <h5 class="mb-0">Sunder Tarot</h5>
+    <div class="sidebar shadow-sm rounded-4">
+      <div class="text-center
+      pt-4 pb-2 text-white">
+        <img src="@/assets/img/Sunder-Tarot-logo.png" alt="">
+        <h5 class="mb-0 pt-4 pb-1 ">Sunder Tarot
+        </h5>
+        <span>靈感指引所</span>
       </div>
-      
-      <div class="nav flex-column">
+   
+      <div class="nav flex-column mt-5">
         <router-link 
           to="/" 
           class="nav-link d-flex align-items-center p-3"
           active-class="active">
-          <i class="bi bi-grid me-2"></i>
+          <i class="bi bi-grid me-2 "></i>
           儀表板
         </router-link>
         <router-link 
@@ -24,22 +28,24 @@
           <i class="bi bi-journal-text me-2"></i>
           諮詢紀錄
         </router-link>
+        <router-link 
+          to="/SchedulingSystem" 
+          class="nav-link d-flex align-items-center p-3"
+          active-class="active">
+          <i class="bi bi-calendar-week me-2"></i>
+          預約排程
+        </router-link>
+
       </div>
     </div>
 
     <!-- 主要內容區 -->
-    <div class="main-content flex-grow-1 bg-light">
+    <div class="main-content flex-grow-1  p-4">
       <router-view></router-view>
     </div>
   </div>
 </template>
 
 <style>
-.nav-link {
-  color: #64748b;
-}
-.nav-link.active {
-  color: #3b82f6;
-  background-color: #f1f5f9;
-}
+
 </style>

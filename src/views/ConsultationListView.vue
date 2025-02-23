@@ -2,7 +2,7 @@
   <div class="container py-4">
     <div class="d-flex justify-content-between mb-4">
       <h2>諮詢紀錄</h2>
-      <button class="btn btn-primary"data-bs-toggle="modal" data-bs-target="#addRecordModal">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRecordModal">
         <i class="bi bi-plus"></i>
         新增紀錄
       </button>
@@ -18,7 +18,11 @@
           </div>
           <div class="col-md-4">
             <label class="form-label">日期範圍</label>
-            <input type="date" class="form-control">
+            <div class="d-flex gap-2">
+              <input type="date" class="form-control" v-model="startDate">
+              <span>至</span>
+              <input type="date" class="form-control" v-model="endDate">
+            </div>
           </div>
         </div>
       </div>
@@ -38,17 +42,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>2024/02/13</td>
-              <td>王小明</td>
-              <td>事業發展</td>
-              <td>三張牌陣</td>
+            <tr v-for="record in records" :key="record.id">
+              <td>{{ record.date }}</td>
+              <td>{{ record.client_name }}</td>
+              <td>{{ record.topic }}</td>
+              <td>{{ record.spread }}</td>
               <td>
-                <button class="btn btn-sm btn-outline-primary me-2">
-                  <i class="bi bi-pencil"></i>
+                <button class="btn btn-sm btn-outline-primary me-2" @click="editRecord(record)">
+                  <i class="bi bi-pencil"></i> 編輯
                 </button>
-                <button class="btn btn-sm btn-outline-danger">
-                  <i class="bi bi-trash"></i>
+                <button class="btn btn-sm btn-outline-danger" @click="deleteRecord(record.id)">
+                  <i class="bi bi-trash"></i> 刪除
                 </button>
               </td>
             </tr>
@@ -56,8 +60,8 @@
         </table>
       </div>
     </div>
-    <!-- Modal 彈窗 -->
-     <div class="modal fade" id="addRecordModal">
+    <!-- Modal 新增諮詢彈窗 -->
+    <div class="modal fade" id="addRecordModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal 標題 -->
@@ -65,37 +69,186 @@
             <h5 class="modal-title">新增諮詢紀錄</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-          
+
           <!-- Modal 內容 -->
           <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">客戶名稱</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" v-model="newRecord.client_name">
             </div>
             <div class="mb-3">
-              <label class="form-label">日期範圍</label>
-              <input type="date" class="form-control">
+              <label class="form-label">占卜日期</label>
+              <input type="date" class="form-control" v-model="newRecord.date">
             </div>
             <div class="mb-3">
               <label class="form-label">諮詢主題</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" v-model="newRecord.topic">
             </div>
             <div class="mb-3">
-              <label class="form-label">牌陣</label>
-              <input type="text" class="form-control">
+              <label for="spreadSelect" class="form-label">牌陣</label>
+              <select id="spreadSelect" class="form-select" v-model="newRecord.spread">
+                <option value="" disabled>請選擇牌陣</option>
+                <option v-for="spread in spreadOptions" :key="spread" :value="spread">
+                  {{ spread }}
+                </option>
+              </select>
             </div>
+
+
           </div>
 
           <!-- Modal 底部按鈕 -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">儲存</button>
+            <button type="button" class="btn btn-primary" @click="addRecord" data-bs-dismiss="modal">
+              儲存
+            </button>
           </div>
         </div>
       </div>
+    </div>
+    <!-- Modal 編輯紀錄的 -->
+    <div class="modal fade" ref="editRecordModal">
+      <div class="modal-dialog">
+        <div class="modal-content" v-if="editingRecord">
+          <div class="modal-header">
+            <h5 class="modal-title">編輯諮詢紀錄</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">客戶名稱</label>
+              <input type="text" class="form-control" v-model="editingRecord.client_name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">日期</label>
+              <input type="date" class="form-control" v-model="formattedDate">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">諮詢主題</label>
+              <input type="text" class="form-control" v-model="editingRecord.topic">
+            </div>
+
+            <div class="mb-3">
+              <label for="spreadSelect" class="form-label">牌陣</label>
+              <select id="spreadSelect" class="form-select" v-model="editingRecord.spread">
+                <option value="" disabled>請選擇牌陣</option>
+                <option v-for="spread in spreadOptions" :key="spread" :value="spread">
+                  {{ spread }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="updateRecord" data-bs-dismiss="modal">儲存</button>
+          </div>
+        </div>
       </div>
+    </div>
+
+
   </div>
 </template>
 
+
+
+
 <script setup>
+import { ref, computed , nextTick , onMounted } from 'vue';
+import { Modal } from 'bootstrap';
+import axios from "axios";
+
+
+const api = axios.create({
+  baseURL: "https://67bb53c2fbe0387ca139c639.mockapi.io/sunder-tarot/v1"
+});
+const records = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await api.get("/records");  
+    records.value = response.data;
+  } catch (error) {
+    console.error("獲取資料失敗:", error);
+  }
+});
+
+// 新增紀錄的表單資料
+const newRecord = ref({
+  client_name: '',
+  date: '',
+  topic: '',
+  spread: ''
+});
+
+// 日期範圍的兩個
+const startDate = ref('');
+const endDate = ref('');
+
+// 新增紀錄函式本機
+const addRecord = () => {
+  const isEmpty = Object.values(newRecord.value).some(value => !value);
+  if (isEmpty) {
+    alert('請填寫完整資訊');
+    return;
+  }
+  records.value.push({
+    id: Date.now(), // 使用時間戳來模擬 ID
+    ...newRecord.value
+  });
+
+  // 清空表單
+  newRecord.value = { client_name: '', date: '', topic: '', spread: '' };
+};
+
+// 目前正在編輯的紀錄
+const editingRecord = ref(null);
+const editRecordModal = ref(null)
+const formattedDate = computed({
+  get: () => {
+    if (!editingRecord.value || !editingRecord.value.date) return '';
+    return editingRecord.value.date.replace(/\//g, '-'); // 轉換 2024/02/13 → 2024-02-13
+  },
+  set: (newValue) => {
+    editingRecord.value.date = newValue.replace(/-/g, '/'); // 轉換回 2024-02-13 → 2024/02/13
+  }
+});
+
+// 編輯函式
+const editRecord = (record) => {
+  if (!record) return;
+  editingRecord.value = { ...record };
+
+  nextTick(() => {
+    if (editRecordModal.value) {
+      const modal = new Modal(editRecordModal.value);
+      modal.show();
+    } else {
+      console.error("找不到 editRecordModal");
+    }
+  });
+};
+
+// 更新紀錄
+const updateRecord = () => {
+  const index = records.value.findIndex(r => r.id === editingRecord.value.id);
+  if (index !== -1) {
+    records.value[index] = { ...editingRecord.value };
+  }
+};
+
+// 刪除紀錄函式
+const deleteRecord = (id) => {
+  records.value = records.value.filter(record => record.id !== id);
+};
+
+// 牌陣選項
+const spreadOptions = ref([
+  '單張',
+  '三張牌（時間之流）',
+  '二選一',
+  '凱爾特十字'
+]);
+
 </script>
