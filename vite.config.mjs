@@ -19,9 +19,13 @@ export default defineConfig({
     }
   },
   define: {
-    global: {}, 
-    $: 'window.jQuery', 
+    global: {},
+    $: 'window.jQuery',
     jQuery: 'window.jQuery',
     'window.jQuery': 'window.jQuery'
+  }, build: {
+    outDir: "dist",
+    assetsDir: "assets"
   }
+
 });
