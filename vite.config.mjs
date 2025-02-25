@@ -5,7 +5,7 @@ import jquery from 'jquery';
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/sunder_tarot_admin/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
