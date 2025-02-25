@@ -18,7 +18,7 @@
           </div>
           <div class="col-md-4">
             <label class="form-label">日期範圍</label>
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 align-items-center">
               <input type="date" class="form-control" v-model="startDate">
               <span>至</span>
               <input type="date" class="form-control" v-model="endDate">
@@ -173,9 +173,6 @@ onMounted(async () => {
     console.error("獲取資料失敗:", error);
   }
 });
-// 日期範圍的兩個
-const startDate = ref('');
-const endDate = ref('');
 
 // 新增紀錄的表單資料
 const newRecord = ref({
@@ -261,14 +258,30 @@ const deleteRecord = async (id) => {
   }
 };
 
+
 // 儲存搜尋的關鍵字
 const searchQuery = ref("");
+// 日期範圍的兩個
+const startDate = ref('');
+const endDate = ref('');
+
 const filteredRecords = computed(() => {
-  if (!searchQuery.value) return records.value; // 如果沒有輸入關鍵字，顯示所有資料
-  return records.value.filter(record => 
-    record.client_name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  return records.value.filter(record => {
+    // 先處理搜尋條件
+    const matchesSearch = !searchQuery.value || 
+      record.client_name.toLowerCase().includes(searchQuery.value.toLowerCase());
+
+    // 再處理日期篩選
+    const recordDate = new Date(record.date.replace(/\//g, "-")); // 轉換成 Date 物件
+    const isAfterStart = !startDate.value || recordDate >= new Date(startDate.value);
+    const isBeforeEnd = !endDate.value || recordDate <= new Date(endDate.value);
+
+    // 同時滿足這兩個條件的資料才會顯示
+    return matchesSearch && isAfterStart && isBeforeEnd;
+  });
 });
+
+
 
 // 牌陣選項
 const spreadOptions = ref([

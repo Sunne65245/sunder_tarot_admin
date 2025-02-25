@@ -14,13 +14,13 @@
       </div>
    
       <div class="nav flex-column mt-5">
-        <router-link 
+        <!-- <router-link 
           to="/" 
           class="nav-link d-flex align-items-center p-3"
           active-class="active">
           <i class="bi bi-grid me-2 "></i>
           儀表板
-        </router-link>
+        </router-link> -->
         <router-link 
           to="/consultations" 
           class="nav-link d-flex align-items-center p-3"
