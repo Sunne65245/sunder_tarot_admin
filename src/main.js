@@ -6,7 +6,7 @@ import router from './router';
 import './assets/views/custom-bootstrap.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import '@/assets/views/main.scss';
+import './assets/views/main.scss';
 
 // jQuery
 import $ from 'jquery';

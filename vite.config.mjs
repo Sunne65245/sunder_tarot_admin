@@ -14,7 +14,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        charset: false,
+        additionalData: `@import "@/assets/views/_variables.scss";`,
       }
     }
   },
