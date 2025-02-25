@@ -14,7 +14,7 @@
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label">客戶名稱</label>
-            <input type="text" class="form-control" placeholder="搜尋客戶...">
+            <input type="text" class="form-control" placeholder="搜尋客戶..." v-model="searchQuery">
           </div>
           <div class="col-md-4">
             <label class="form-label">日期範圍</label>
@@ -42,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="record in records" :key="record.id">
+            <tr v-for="record in filteredRecords" :key="record.id">
               <td>{{ record.date }}</td>
               <td>{{ record.client_name }}</td>
               <td>{{ record.topic }}</td>
@@ -173,6 +173,9 @@ onMounted(async () => {
     console.error("獲取資料失敗:", error);
   }
 });
+// 日期範圍的兩個
+const startDate = ref('');
+const endDate = ref('');
 
 // 新增紀錄的表單資料
 const newRecord = ref({
@@ -182,25 +185,25 @@ const newRecord = ref({
   spread: ''
 });
 
-// 日期範圍的兩個
-const startDate = ref('');
-const endDate = ref('');
-
-// 新增紀錄函式本機
-const addRecord = () => {
+// 新增紀錄函式
+const addRecord = async () => {
   const isEmpty = Object.values(newRecord.value).some(value => !value);
   if (isEmpty) {
-    alert('請填寫完整資訊');
+    alert("請填寫完整資訊");
     return;
   }
-  records.value.push({
-    id: Date.now(), // 使用時間戳來模擬 ID
-    ...newRecord.value
-  });
 
-  // 清空表單
-  newRecord.value = { client_name: '', date: '', topic: '', spread: '' };
+  try {
+    const response = await api.post("/records", newRecord.value);
+    records.value.push(response.data); // **同步前端狀態**
+    
+    // 清空表單
+    newRecord.value = { client_name: "", date: "", topic: "", spread: "" };
+  } catch (error) {
+    console.error("新增失敗:", error);
+  }
 };
+
 
 // 目前正在編輯的紀錄
 const editingRecord = ref(null);
@@ -231,17 +234,41 @@ const editRecord = (record) => {
 };
 
 // 更新紀錄
-const updateRecord = () => {
-  const index = records.value.findIndex(r => r.id === editingRecord.value.id);
-  if (index !== -1) {
-    records.value[index] = { ...editingRecord.value };
+const updateRecord = async () => {
+  if (!editingRecord.value || !editingRecord.value.id) return;
+
+  try {
+    const response = await api.put(`/records/${editingRecord.value.id}`, editingRecord.value);
+    
+    // 更新前端的 records 陣列
+    const index = records.value.findIndex(r => r.id === editingRecord.value.id);
+    if (index !== -1) records.value[index] = response.data;
+  } catch (error) {
+    console.error("更新失敗:", error);
   }
 };
 
+
 // 刪除紀錄函式
-const deleteRecord = (id) => {
-  records.value = records.value.filter(record => record.id !== id);
+const deleteRecord = async (id) => {
+  try {
+    await api.delete(`/records/${id}`);
+    
+    // 前端同步刪除該筆資料
+    records.value = records.value.filter(record => record.id !== id);
+  } catch (error) {
+    console.error("刪除失敗:", error);
+  }
 };
+
+// 儲存搜尋的關鍵字
+const searchQuery = ref("");
+const filteredRecords = computed(() => {
+  if (!searchQuery.value) return records.value; // 如果沒有輸入關鍵字，顯示所有資料
+  return records.value.filter(record => 
+    record.client_name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 // 牌陣選項
 const spreadOptions = ref([
