@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   redirect: '/consultations'
-  // },
   {
     path: '/',
     name: 'Dashboard',

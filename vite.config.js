@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
-import jquery from 'jquery';
 
 export default defineConfig({
   plugins: [vue()],
@@ -18,17 +17,6 @@ export default defineConfig({
       }
     }
   },
-  // define: {
-  //   global: {}, 
-  //   $: 'window.jQuery', 
-  //   jQuery: 'window.jQuery',
-  //   'window.jQuery': 'window.jQuery'
-  // }
-  define: {
-    global: {},
-    $: jquery,
-    jQuery: jquery,
-    'window.jQuery': jquery
-  }
+  base: process.env.NODE_ENV === 'production' ? '/sunder_tarot_admin/' : '/',
 });
 
