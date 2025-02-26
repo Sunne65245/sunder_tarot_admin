@@ -18,10 +18,17 @@ export default defineConfig({
       }
     }
   },
+  // define: {
+  //   global: {}, 
+  //   $: 'window.jQuery', 
+  //   jQuery: 'window.jQuery',
+  //   'window.jQuery': 'window.jQuery'
+  // }
   define: {
-    global: {}, 
-    $: 'window.jQuery', 
-    jQuery: 'window.jQuery',
-    'window.jQuery': 'window.jQuery'
+    global: {},
+    $: jquery,
+    jQuery: jquery,
+    'window.jQuery': jquery
   }
 });
+

@@ -1,8 +1,11 @@
+//字型
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
+
 // Variables
-@import "@/assets/views/_variables";
+@import "../../assets/views/_variables";
 
 // 選單
-@import "@/assets/views/_nav";
+@import "../../assets/views/_nav";
 
 // Layout
-@import "@/assets/views/_layout";
+@import "../../assets/views/_layout";

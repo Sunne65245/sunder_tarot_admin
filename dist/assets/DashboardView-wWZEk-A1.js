@@ -1,1 +1,0 @@
-import{_ as n,c as r,a as o,o as s}from"./index-Bnobydso.js";const t={},a={class:"container py-4"};function c(l,e){return s(),r("div",a,e[0]||(e[0]=[o("h2",null,"儀表板",-1),o("p",null,"歡迎使用 Sunder Tarot 後台管理系統",-1)]))}const d=n(t,[["render",c]]);export{d as default};

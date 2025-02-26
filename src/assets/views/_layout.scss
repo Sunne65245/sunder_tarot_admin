@@ -22,11 +22,46 @@ body {
   width: 100vw;
 }
 
-// .main-content{
-//   background-color: aqua;
-// }
+// 首頁主視覺
+.indx-hero{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80vh;
+}
+.hero-title {
 
+  font-size: 2rem;
+  background: linear-gradient(to bottom, $primary 0%, #8B7355 50%, $success 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  opacity: .8;
+  letter-spacing: 0.3rem;
+  font-family: 'Ibarra Real Nova', "Noto Serif TC";
+  font-weight: 700;
 
-// .index-pg{
-//   background-color: rgb(255, 170, 0);
-// }
+  span {
+      display: block;
+      line-height: 3rem;
+        font-family: $font-family-sans-serif;
+  }
+}
+.title {
+  font-size: 2rem;
+  letter-spacing: 1rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-family: $font-family-sans-serif;
+}
+.word {
+  font-size: 1rem;
+
+  span {
+      display: block;
+      line-height: 1.8rem;
+  }
+}

@@ -1,25 +1,22 @@
-<script setup>
-</script>
 
 <template>
   <div class="d-flex w-100 index-pg">
     <!-- 側邊欄 -->
     <div class="sidebar shadow-sm rounded-4">
-      <div class="text-center
-      pt-4 pb-2 text-white">
+      <div class="text-center pt-4 pb-2 text-white">
         <img src="@/assets/img/Sunder-Tarot-logo.png" alt="">
         <h5 class="mb-0 pt-4 pb-1 ">Sunder Tarot
         </h5>
         <span>靈感指引所</span>
       </div>
    
-      <div class="nav flex-column mt-5">
+      <div class="nav flex-column mt-5 py-4">
         <router-link 
           to="/" 
           class="nav-link d-flex align-items-center p-3"
           active-class="active">
           <i class="bi bi-grid me-2 "></i>
-          儀表板
+          首頁
         </router-link>
         <router-link 
           to="/consultations" 
@@ -46,6 +43,5 @@
   </div>
 </template>
 
-<style>
-
-</style>
+<script setup>
+</script>
