@@ -1,1 +1,0 @@
-import{_ as s,c as t,a as n,o}from"./index-B-hkjpzZ.js";const c={},r={class:"container py-4"};function a(l,e){return o(),t("div",r,e[0]||(e[0]=[n("h2",null,"預約排程",-1),n("p",null,"功能尚未開放",-1)]))}const d=s(c,[["render",a]]);export{d as default};
